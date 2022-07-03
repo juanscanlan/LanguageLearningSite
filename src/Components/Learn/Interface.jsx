@@ -33,16 +33,23 @@ const Interface = () => {
   let numberOfWords = 10;
   let level = 0;
 
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentProgress, setCurrentProgress] = useState(
     getCurrentProgress(storedSessionName)
   );
   const [currentWords, setCurrentWords] = useState(
     getCurrentWords(getCurrentProgress(), numberOfWords, dutchWords, level)
   );
+  const [currentWordIndex, setCurrentWordIndex] = useState(
+    getCurrentWords(getCurrentProgress(), numberOfWords, dutchWords, level)[0]
+      .id
+  );
   const [showAnswer, setShowAnswer] = useState(false);
+  const [completedSession, setCompletedSession] = useState(false);
 
   const ShowCurrentWord = (index, wordsObject) => {
+    console.log("555", currentWords, currentWordIndex, wordsObject, index);
+
+    //console.log(wordsObject, index, wordsObject[index]);
     return <div>{wordsObject[index].word}</div>;
   };
 
@@ -53,23 +60,43 @@ const Interface = () => {
 
   const handleAnswer = (
     result,
-    wordsObject,
+    wordsArray,
     currentIndex,
     progressStringValue
   ) => {
     setShowAnswer(false);
     saveSessionProgress(result, currentIndex, progressStringValue);
 
-    if (currentIndex !== wordsObject.length - 1) {
-      setCurrentWordIndex((currState) => currState + 1);
-    } else {
+    let currentWordObj = wordsArray[currentIndex];
+
+    // if (currentIndex !== wordsArray.length - 1) {
+    //   if (!result) {
+    //     setCurrentWords((currValue) => currValue.concat(currentWordObj));
+    //   }
+    //   console.log("ttrrr", currentIndex, currentWords, currentWordIndex);
+    //   setCurrentWordIndex((currIndex) => currIndex + 1);
+    //   // Indexing should not be set by id TODO
+    // } else {
+    //   completeLearningSession();
+    // }
+
+    if (!result) {
+      setCurrentWords((currValue) => currValue.concat(currentWordObj));
+    }
+
+    if (currentIndex === currentWords.length - 1 && result) {
       completeLearningSession();
+    } else {
+      console.log("ttrrr", currentIndex, currentWords, currentWordIndex);
+      setCurrentWordIndex((currIndex) => currIndex + 1);
+      // Indexing should not be set by id TODO
     }
   };
 
   const completeLearningSession = () => {
     console.log(currentProgress, initProgress[0]);
     localStorage.setItem(storedSessionName, currentProgress);
+    setCompletedSession(true);
   };
 
   const saveSessionProgress = (result, currentIndex, progressStringValue) => {
@@ -78,7 +105,7 @@ const Interface = () => {
     let _newProgress = setCharAt(progressStringValue, currentIndex, _nextValue);
     setCharAt(progressStringValue, currentIndex, _nextValue);
 
-    console.log(currentIndex, _newProgress);
+    //console.log(currentIndex, _newProgress);
     setCurrentProgress(_newProgress);
   };
 
@@ -110,11 +137,19 @@ const Interface = () => {
     </div>
   );
 
+  const completedSessionJSX = <div>Session Completed!</div>;
+
   return (
     <div className={styles.container}>
-      <span>Translate this word</span>
-      <span>{ShowCurrentWord(currentWordIndex, currentWords)}</span>
-      {showAnswer ? answerButtonsJSX : showAnswerJSX}
+      {!completedSession ? (
+        <>
+          <span>Translate this word</span>
+          <span>{ShowCurrentWord(currentWordIndex, currentWords)}</span>
+          {showAnswer ? answerButtonsJSX : showAnswerJSX}
+        </>
+      ) : (
+        completedSessionJSX
+      )}
     </div>
   );
 };
