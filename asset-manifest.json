@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/languagelearningsite/static/css/main.feb90888.css",
-    "main.js": "/languagelearningsite/static/js/main.c453d2fa.js",
-    "index.html": "/languagelearningsite/index.html",
-    "main.feb90888.css.map": "/languagelearningsite/static/css/main.feb90888.css.map",
-    "main.c453d2fa.js.map": "/languagelearningsite/static/js/main.c453d2fa.js.map"
+    "main.css": "/LanguageLearningSite/static/css/main.feb90888.css",
+    "main.js": "/LanguageLearningSite/static/js/main.c453d2fa.js",
+    "index.html": "/LanguageLearningSite/index.html",
+    "main.feb90888.css.map": "/LanguageLearningSite/static/css/main.feb90888.css.map",
+    "main.c453d2fa.js.map": "/LanguageLearningSite/static/js/main.c453d2fa.js.map"
   },
   "entrypoints": [
     "static/css/main.feb90888.css",
