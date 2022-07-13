@@ -3,4 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin: 10rem;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
 }
